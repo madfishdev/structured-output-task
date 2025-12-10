@@ -4,10 +4,7 @@
 
 body {
   margin: 0;
-  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  
-  background-color: var(--bg-color);
-  color: var(--text-main);
+  font-family: Roboto, sans-serif;
   
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

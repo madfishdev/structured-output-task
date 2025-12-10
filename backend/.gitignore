@@ -1,2 +1,2 @@
 # Python cache files
-app/__pycache__
+app/**/__pycache__

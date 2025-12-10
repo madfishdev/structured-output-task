@@ -1,50 +1,24 @@
-from fastapi import FastAPI, Form, File, UploadFile
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-import time
-import os
+from app.core.database import engine, Base
+from app.routers import auth, analyze
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+
+app = FastAPI(lifespan=lifespan)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-class AuthCredentials(BaseModel):
-    username: str
-    password: str
-
-@app.get("/")
-def read_root():
-    return {"status": "online", "message": "Backend Mock is running!"}
-
-@app.post("/login")
-def login_mock(creds: AuthCredentials):
-    return {
-        "access_token": f"mock-token-for-{creds.username}", 
-        "token_type": "bearer"
-    }
-
-@app.post("/register")
-def register_mock(creds: AuthCredentials):
-    return {
-        "access_token": f"mock-token-for-{creds.username}", 
-        "token_type": "bearer"
-    }
-
-@app.post("/analyze")
-async def analyze_mock(
-    prompt: str = Form(...),
-    fields: str = Form(...),
-    file: UploadFile = File(None)
-):
-    time.sleep(1.5)
-    return {
-        "inventor_full_name": "Alan Turing",
-        "birth_year": 1912,
-        "shirt_number": 140,
-        "achievement": "Cracked Enigma"
-    }
+app.include_router(auth.router)
+app.include_router(analyze.router)

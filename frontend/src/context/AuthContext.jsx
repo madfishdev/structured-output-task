@@ -1,8 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import api from '../api';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -10,6 +8,10 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     
+    /*
+    Using localStorage for simplicity in this assignment,
+    In production I'd use HttpOnly cookies or refresh tokens for added security.
+    */
     useEffect(() => {
         const storedAuthToken = localStorage.getItem('authToken');
         if (storedAuthToken) {
@@ -55,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ authToken, isAuthenticated, isLoading, login, logout }}>
+        <AuthContext.Provider value={{ authToken, isAuthenticated, isLoading, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );
