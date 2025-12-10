@@ -1,2 +1,8 @@
 fastapi
 uvicorn[standard]
+pydantic
+requests
+redis
+boto3
+openai
+python-multipart
