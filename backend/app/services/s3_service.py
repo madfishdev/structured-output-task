@@ -1,8 +1,9 @@
 import boto3
 import hashlib
+
 from io import BytesIO
-from app.core.config import settings
 from botocore.exceptions import ClientError
+from app.core.config import settings
 
 class S3Service:
     def __init__(self):
@@ -13,9 +14,9 @@ class S3Service:
             endpoint_url=settings.S3_ENDPOINT_URL
         )
         self.bucket_name = settings.S3_BUCKET_NAME
-        self.ensure_bucket_exists()
+        self._ensure_bucket_exists()
 
-    def ensure_bucket_exists(self):
+    def _ensure_bucket_exists(self):
         try:
             self.s3_client.head_bucket(Bucket=self.bucket_name)
         except ClientError as e:

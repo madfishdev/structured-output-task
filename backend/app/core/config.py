@@ -2,12 +2,15 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     DATABASE_URL: str
+
     REDIS_URL: str
+    REDIS_CACHE_TTL_SECONDS: int = 3600 # 1 Hour
 
     AWS_ACCESS_KEY_ID: str
     AWS_SECRET_ACCESS_KEY: str
     S3_BUCKET_NAME: str
     S3_ENDPOINT_URL: str
+
 
     OPENROUTER_API_KEY: str
     OPENROUTER_URL: str = "https://openrouter.ai/api/v1"

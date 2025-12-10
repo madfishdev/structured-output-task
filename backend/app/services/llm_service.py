@@ -11,7 +11,7 @@ class LLMService:
             api_key=settings.OPENROUTER_API_KEY
         )
 
-    def analyze(self, prompt: str, structure: list, image_bytes: bytes, image_type: str):
+    async def analyze(self, prompt: str, structure: list, image_bytes: bytes, image_type: str):
         user_content = [{"type": "text", "text": prompt}]
 
         if image_bytes and image_type:  # Only add image if provided

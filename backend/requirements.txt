@@ -10,5 +10,5 @@ python-jose[cryptography]
 python-multipart
 boto3
 openai
-redis
+redis[hiredis]
 pyjwt
